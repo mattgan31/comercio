@@ -1,16 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Login from '../File/Login';
-import Biodata from '../File/Biodata';
 import Form from '../File/Form';
 import Data from '../File/Data';
 import About from '../File/About';
 import Edit from '../File/Edit';
+import Home from '../File/Home';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,7 +22,7 @@ export default function Router() {
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="LoginScreen" component={Login} />                
                 <Stack.Screen name="MainApp" component={MainApp} />
-                <Stack.Screen name="Home" component={Biodata} />
+                <Stack.Screen name="Home" component={Home} />
                 <Stack.Screen name="MyDrawer" component={MyDrawer} />                
                 <Stack.Screen name="MyStack" component={MyStack} />
     </Stack.Navigator>
@@ -33,29 +33,68 @@ export default function Router() {
 const MainApp=()=>{
     return(
         <Tab.Navigator
-          tabBarOptions={{
-            activeTintColor:'#2991FF',
-            inactiveTintColor: 'white',
-            activeBackgroundColor: '#ccffff',
-            labelStyle:{fontSize:13, marginBottom:10},
-            style:{
-                backgroundColor: '#2991FF',
-                height:40
-            }
+            tabBarOptions={{
+                activeTintColor:'#000',
+                inactiveTintColor: '#000',
+                activeBackgroundColor: '#CACACA',
+                labelStyle:{fontSize:13, marginBottom:10},
+                style:{
+                    backgroundColor: '#F3F3F3',
+                    height:60,
+                    alignContent:'center'
+                }
             }}
-        >
-            <Tab.Screen name="Biodata" component={Biodata}/>
-            <Tab.Screen name="Isi Portofolio" component={Form}/>
-            <Tab.Screen name="Portofolio" component={Data}/>
+        >            
+            <Tab.Screen 
+            name="Home" 
+            component={Home}
+            options={{
+                tabBarIcon: ({focused}) => (
+                    <Image 
+                    source={
+                        require('../assets/home.png')
+                        
+                    }
+                    style={{marginTop:10}}/>
+                ),
+            }}
+            />
+            <Tab.Screen name="Iklanku" component={Form}
+            options={{
+                tabBarIcon: ({focused}) => (
+                    <Image 
+                    source={
+                        require('../assets/post.png')
+                        
+                    }
+                    style={{marginTop:10}}/>
+                ),
+            }}
+            />
+            <Tab.Screen name="Profil" component={Data}
+            options={{
+                tabBarIcon: ({focused}) => (
+                    <Image 
+                    source={
+                        require('../assets/akun.png')
+                        
+                    }
+                    style={{marginTop:10}}/>
+                ),
+            }}
+            />
         </Tab.Navigator>
     )
-    }
+}
+
+
+
 const MyStack=()=>{
     return(
     <Stack.Navigator>
         <Stack.Screen name="Isi Portofolio" component={Form} options={{ headerShown: false }}/>
         <Stack.Screen name='Edit' component={Edit} options={{ title:'Kembali' }}/>
-  </Stack.Navigator>
+    </Stack.Navigator>
     )
 }
 
