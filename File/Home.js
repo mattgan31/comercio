@@ -1,8 +1,14 @@
 import React from "react";
-import { View, Text, TextInput,StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TextInput,StyleSheet, Image, StatusBar, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
 
-export default function Biodata(){
+export default function Biodata({navigation}){
     return(
+        <SafeAreaView>
+            <StatusBar
+            barStyle="light-content"
+            //backgroundColor="#fff"
+            />
+        
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.top}>
@@ -46,27 +52,34 @@ export default function Biodata(){
                 <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}            
-                >
-                    <View style={{flexDirection:'row', marginLeft:37}}>                
-                            <View style={styles.boxterbaru}>
+                >                    
+                        <View style={{flexDirection:'row', marginLeft:37}}>                
+                            <TouchableOpacity onPress={()=>navigation.navigate('Detail')}>
+                                <View style={styles.boxterbaru}>
 
-                            </View>
-                            <View style={styles.boxterbaru}>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>navigation.navigate('Detail')}>
+                                <View style={styles.boxterbaru}>
 
-                            </View>
-                        
-                    </View>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    
                 </ScrollView>
             </View>            
             </View>
         </View>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
 	container:{
         alignItems:'center',
-        flexDirection:'column'
+        flexDirection:'column',
+        backgroundColor:'#fff',
+        height:'100%'
     },
     header:{
         marginTop:50,

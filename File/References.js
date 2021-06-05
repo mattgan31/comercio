@@ -2,14 +2,15 @@ import firebase from 'firebase';
 
 const firebaseConfig = {
     //isi dengan konfigurasi realtime database kalian    
-    apiKey: "AIzaSyADB8yDiobTSS1vdUl0_gmHkc90T4d24E0",
-    authDomain: "damatt-520e3.firebaseapp.com",
-    databaseURL: "https://damatt-520e3-default-rtdb.firebaseio.com",
-    projectId: "damatt-520e3",
-    storageBucket: "damatt-520e3.appspot.com",
-    messagingSenderId: "56689476887",
-    appId: "1:56689476887:web:db84e342128cb6b5ca2352",
-    measurementId: "G-JMQR88S772"
+    apiKey: "AIzaSyBVZV5kvISe4Ful_MnYMUwfwywhFUoVFfs",
+    authDomain: "comercio-52028.firebaseapp.com",
+    databaseURL: "https://comercio-52028-default-rtdb.firebaseio.com",
+    projectId: "comercio-52028",
+    storageBucket: "comercio-52028.appspot.com",
+    messagingSenderId: "401336815236",
+    appId: "1:401336815236:web:8fc042b8ab0c431ad43cd1",
+    measurementId: "G-4JN5X79VPE"
+
 
   };
   if (!firebase.apps.length) {

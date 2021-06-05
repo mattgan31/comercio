@@ -54,10 +54,11 @@ export default function Login({navigation}){
               style={{alignSelf:'center', fontSize:11}}
               >
                 Belum terdaftar ?
-                
               </Text>
               <TouchableOpacity>
-                  <Text style={{textDecorationLine:'underline', marginLeft:4, fontSize:11}}>Daftar</Text>
+                  <Text style={{textDecorationLine:'underline', marginLeft:4, fontSize:11}}
+                  onPress={()=>navigation.navigate('RegisterScreen')}
+                  >Daftar</Text>
               </TouchableOpacity>
             </View>            
           </View>

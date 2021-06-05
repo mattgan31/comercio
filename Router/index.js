@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,6 +7,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Login from '../File/Login';
 import Form from '../File/Form';
+import Iklanku from '../File/Iklanku';
+import Register from '../File/Register';
+import Detail from '../File/Detail';
+
 import Data from '../File/Data';
 import About from '../File/About';
 import Edit from '../File/Edit';
@@ -18,20 +22,22 @@ const Stack = createStackNavigator();
 
 export default function Router() {
     return (
-        <NavigationContainer>
+        <NavigationContainer>            
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="LoginScreen" component={Login} />                
                 <Stack.Screen name="MainApp" component={MainApp} />
+                <Stack.Screen name="LoginScreen" component={Login} />    
+                <Stack.Screen name="RegisterScreen" component={Register} />                
                 <Stack.Screen name="Home" component={Home} />
                 <Stack.Screen name="MyDrawer" component={MyDrawer} />                
                 <Stack.Screen name="MyStack" component={MyStack} />
-    </Stack.Navigator>
+                <Stack.Screen name="Detail" component={Detail} options={{ headerShown: false }}/>        
+        </Stack.Navigator>
     </NavigationContainer>
     )
 }
 
 const MainApp=()=>{
-    return(
+    return(        
         <Tab.Navigator
             tabBarOptions={{
                 activeTintColor:'#000',
@@ -44,7 +50,7 @@ const MainApp=()=>{
                     alignContent:'center'
                 }
             }}
-        >            
+        >                        
             <Tab.Screen 
             name="Home" 
             component={Home}
@@ -59,7 +65,7 @@ const MainApp=()=>{
                 ),
             }}
             />
-            <Tab.Screen name="Iklanku" component={Form}
+            <Tab.Screen name="Iklanku" component={Iklanku}
             options={{
                 tabBarIcon: ({focused}) => (
                     <Image 
@@ -91,9 +97,8 @@ const MainApp=()=>{
 
 const MyStack=()=>{
     return(
-    <Stack.Navigator>
-        <Stack.Screen name="Isi Portofolio" component={Form} options={{ headerShown: false }}/>
-        <Stack.Screen name='Edit' component={Edit} options={{ title:'Kembali' }}/>
+    <Stack.Navigator>        
+        <Stack.Screen name="Detail" component={Detail} options={{ headerShown: false }}/>        
     </Stack.Navigator>
     )
 }
@@ -102,5 +107,6 @@ const MyDrawer=()=>(
         <Drawer.Navigator>
             <Drawer.Screen name="Biodata" component={MainApp} />
             <Drawer.Screen name="About" component={About} />
+            <Drawer.Screen name="Detail" component={Detail}/>        
         </Drawer.Navigator>
 )
