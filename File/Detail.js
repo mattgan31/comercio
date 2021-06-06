@@ -1,13 +1,18 @@
 import React from 'react'
-import { StyleSheet, Image, Text, View } from 'react-native'
+import { StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native'
 
-export default function Detail() {
+export default function Detail({navigation}) {
     return (
         <View>
             <View style={{height:405, width:411, backgroundColor:'#c4c4c4'}}>
-                <Image source={require('../assets/back.png')}
-                style={{top:33, left:27}}
-                />
+                <TouchableOpacity
+                title="Go back" onPress={() => navigation.goBack()}
+                >
+                    <Image source={require('../assets/back.png')}
+                    style={{top:33, left:27}}
+                    />
+                </TouchableOpacity>
+                    
             </View>
             <View>
                 <View>

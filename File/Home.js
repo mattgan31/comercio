@@ -13,7 +13,8 @@ export default function Biodata({navigation}){
             <View style={styles.header}>
                 <View style={styles.top}>
                     <Text style={styles.welcome}>Welcome User</Text>
-                    <TouchableOpacity style={{marginLeft:'auto'}}>
+                    <TouchableOpacity style={{marginLeft:'auto'}}
+                    onPress={()=>navigation.navigate('Add')}>
                         <Image                         
                         source={require('../assets/cart.png')}/>
                     </TouchableOpacity>

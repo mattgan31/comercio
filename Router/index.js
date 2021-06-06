@@ -10,6 +10,7 @@ import Form from '../File/Form';
 import Iklanku from '../File/Iklanku';
 import Register from '../File/Register';
 import Detail from '../File/Detail';
+import Add from '../File/Add';
 
 import Data from '../File/Data';
 import About from '../File/About';
@@ -30,7 +31,8 @@ export default function Router() {
                 <Stack.Screen name="Home" component={Home} />
                 <Stack.Screen name="MyDrawer" component={MyDrawer} />                
                 <Stack.Screen name="MyStack" component={MyStack} />
-                <Stack.Screen name="Detail" component={Detail} options={{ headerShown: false }}/>        
+                <Stack.Screen name="Detail" component={Detail} options={{ headerShown: false }}/>
+                <Stack.Screen name="Add" component={Add}/>
         </Stack.Navigator>
     </NavigationContainer>
     )
@@ -99,6 +101,7 @@ const MyStack=()=>{
     return(
     <Stack.Navigator>        
         <Stack.Screen name="Detail" component={Detail} options={{ headerShown: false }}/>        
+        <Stack.Screen name="Add" component={Add}/>
     </Stack.Navigator>
     )
 }
@@ -106,7 +109,6 @@ const MyStack=()=>{
 const MyDrawer=()=>(
         <Drawer.Navigator>
             <Drawer.Screen name="Biodata" component={MainApp} />
-            <Drawer.Screen name="About" component={About} />
-            <Drawer.Screen name="Detail" component={Detail}/>        
+            <Drawer.Screen name="About" component={About} />            
         </Drawer.Navigator>
 )
