@@ -8,13 +8,14 @@ export default function Form({navigation, route}){
     const [password, setPassword] = useState("");
 
   const submit = () => {
-        var postsRef = dataRef.child("users");
-        var newPostRef = postsRef.push();
-        newPostRef.set({
+        let newData={
             username: username,
-             email: email,
-             password: password
-        });
+            email: email,
+            password: password
+        };
+        const ref = dataRef.child("users").push(newData);
+        const key = ref.key;
+        dataRef.child("users").child(key).update({'key': key})
 
         navigation.navigate('LoginScreen')
     };
@@ -59,7 +60,7 @@ export default function Form({navigation, route}){
                     style={styles.button}
                     onPress={()=>submit()}
                   >
-                    <Text style={styles.textButton}>Login</Text>
+                    <Text style={styles.textButton}>Register</Text>
                   </TouchableOpacity>
               </View>
               <View style={{flexDirection:'row', alignSelf:'center'}}>

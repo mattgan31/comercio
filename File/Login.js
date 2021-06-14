@@ -6,8 +6,8 @@ export default function Login({navigation}){
     const [password, setPassword] = useState("");
 
     const submit=()=>{
-      if(username=="rahmat"||password=="158"){
-        navigation.navigate('MyDrawer');
+      if(username=="dirayu"||password=="111"){
+        navigation.navigate('MainApp');
       }
       else{
         Alert.alert("Username atau Password salah");

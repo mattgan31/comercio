@@ -1,21 +1,41 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View, TextInput, Picker } from 'react-native'
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Add({navigation}) {
+
+    const [kategori, setKategori] = useState("");
+
+    let openImagePickerAsync = async () => {
+        let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+        if (permissionResult.granted === false) {
+          alert("Permission to access camera roll is required!");
+          return;
+        }
+    
+        let pickerResult = await ImagePicker.launchImageLibraryAsync();
+        console.log(pickerResult);
+
+        if (pickerResult.cancelled === true) {
+            return;
+        }        
+      }
+
     return (
         <View style={{backgroundColor:'#fff', height:'100%'}}>
-            <TouchableOpacity onPress={()=>navigation.goBack()}>
-                <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'row'}}>
+            <TouchableOpacity onPress={()=>navigation.goBack()}>                
                     <View style={{width:50, height:50, alignItems:'center', justifyContent:'center', marginTop:19, marginLeft:10}}>
                         <Image 
                         source={require('../assets/back.png')}                    
                         />
-                    </View>           
-                    <Text
-                    style={{marginTop:32, marginLeft:0, fontSize:16, fontWeight:'bold'}}
-                    >Edit Iklan</Text>     
-                </View>                                
+                    </View>                               
             </TouchableOpacity>
+            <Text
+                    style={{marginTop:32, marginLeft:0, fontSize:16, fontWeight:'bold'}}
+                    >Edit Iklan</Text>                            
+            </View>
             <View style={{top:0}}>                
 
                 <View 
@@ -30,6 +50,7 @@ export default function Add({navigation}) {
                     </View>
 
                     <TouchableOpacity
+                    onPress={openImagePickerAsync}
                     style={{position:'absolute', right:30}}>
                         <Text>Tambah Foto +</Text>
                     </TouchableOpacity>
@@ -64,6 +85,8 @@ export default function Add({navigation}) {
                     </View>
                     <View style={{borderBottomColor:'#c4c4c4', borderBottomWidth:1, width:337, alignSelf:'center', marginTop:10}}>
                         <Picker 
+                        selectedValue={kategori}
+                        onValueChange={(itemValue, itemIndex) =>setKategori(itemValue)}
                         style={{height:25, width:382, right:26, transform:[{scaleX:0.9}, {scaleY:0.9}]}}                     
                         >
                             <Picker.Item label="Pilih kategori barang" value="Belum diisi"/>

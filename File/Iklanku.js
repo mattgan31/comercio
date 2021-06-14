@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, StatusBar, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
 
-export default function Iklanku(){
+export default function Iklanku({navigation}){
     return(
         <SafeAreaView>
             <StatusBar
@@ -19,14 +19,15 @@ export default function Iklanku(){
             <View>                
                 <View style={styles.contiklan}>                                
                     <ScrollView>
-
                             <View style={[styles.boxiklan]}>
                                 <Text style={styles.juduliklan}>Nama barang</Text>
                                 <Text style={styles.kategori}>Kategori</Text>
-                                <View style={styles.foto}>
-
+                                <View style={styles.foto}>                                
                                 </View>
-                                <TouchableOpacity style={{position:'absolute', right:35}}>
+                                <Text style={{position:'absolute', left:140, bottom:40}}>Rp1.999.000</Text>
+                                <TouchableOpacity style={{position:'absolute', right:35}}
+                                onPress={()=>navigation.navigate('Edit')}
+                                >
                                     <Image
                                     source={require('../assets/edit.png')}
                                     />
@@ -39,7 +40,9 @@ export default function Iklanku(){
                                     
                                 </View>
                                 <Text style={{position:'absolute', left:140, bottom:40}}>Rp1.999.000</Text>
-                                <TouchableOpacity style={{position:'absolute', right:35}}>
+                                <TouchableOpacity style={{position:'absolute', right:35}}
+                                onPress={()=>navigation.navigate('Edit')}
+                                >
                                     <Image
                                     source={require('../assets/edit.png')}
                                     />
