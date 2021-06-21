@@ -1,18 +1,37 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet,Alert } from "react-native";
+import {dataRef} from './References';
+import * as firebase from 'firebase';
 
 export default function Login({navigation}){
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-
-    const submit=()=>{
-      if(username=="dirayu"||password=="111"){
-        navigation.navigate('MainApp');
-      }
-      else{
-        Alert.alert("Username atau Password salah");
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    
+    
+    let dusername;
+    let dpassword;                  
+    
+    const submit=()=>{              
+      dataRef.child("users").on('child_added', (snapshot, prevChildKey) => {        
+        let users = snapshot.val();        
+        dusername = users.username;
+        dpassword = users.password;                    
+      if(username==dusername ){
         
-      }
+        if(password==dpassword){          
+          navigation.navigate('MainApp',{screen:'Home',          
+          params:{user: username}
+          });
+          return ;
+        }else{
+          Alert.alert("Username atau Password salah");      
+        }        
+      }      
+      }, (errorObject) => {
+        console.log('The read failed: ' + errorObject.name);
+      }); 
+      
+      
     };
 
     return (
@@ -46,7 +65,7 @@ export default function Login({navigation}){
                   style={styles.button}
                   onPress={()=>submit()}
                 >
-                  <Text style={styles.textButton}>Login</Text>
+                  <Text style={styles.textButton}>Masuk</Text>
                 </TouchableOpacity>
             </View>
             <View style={{flexDirection:'row', alignSelf:'center'}}>

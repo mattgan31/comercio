@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "comercio2",
-    "slug": "comercio2",
+    "name": "Comercio",
+    "slug": "comercio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,10 +23,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.mattgan.comercio"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

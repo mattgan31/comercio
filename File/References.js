@@ -17,3 +17,4 @@ const firebaseConfig = {
     firebase.initializeApp(firebaseConfig);
     }
     export const dataRef = firebase.database().ref();
+    export const storageRef = firebase.storage().ref();

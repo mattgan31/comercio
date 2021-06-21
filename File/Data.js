@@ -9,16 +9,21 @@ export default function Data({navigation, route}){
 
   useEffect(()=> {
         const dataFocus = navigation.addListener('focus', ()=>{
-        const listener = dataRef.on('value', (snapshot) => {
-          let data = snapshot.val();
-          let dskill;
-          if(data != null){
-            dskill = Object.values(data);
-          } else{
-            
+          const listener = dataRef.on('value', (snapshot) => {
+            let data = snapshot.val();
+            let dskill;
+            if(data != null){
+              dskill = Object.values(data);
+            } else{
+              
+            }
+            setDskill(dskill);
+            }
+            )
           }
-          setDskill(dskill);
-          })})})
+        )
+      }
+    )
 
     const sendData=(item) => {
         navigation.navigate('MyStack',{
@@ -42,28 +47,32 @@ export default function Data({navigation, route}){
                 <Text style={styles.textContentTitle}>Level</Text>
              </View>
           </View>
-          <View style={styles.contFlat}>            
-              <FlatList
-                data={dskill}
-                keyExtractor={(item)=>item.key}
-                renderItem={({item})=>{
-                    return(
-                        <TouchableOpacity
-                            onPress={()=>sendData(item)}
-                        >   
-                            <View style={styles.contData1}>
-                                <View style = {styles.contentTitle1}>
-                                    <Text style = {styles.textContentTitle1}> {item.skill} </Text>
-                                </View>
-                                <View style = {styles.contentTitle1}>
-                                    <Text style = {styles.textContentTitle1}> {item.level}
-                                    </Text>
-                                </View> 
+          <View style={styles.contFlat}>
+          {data !== null
+           ? (<FlatList
+            data={dskill}
+            keyExtractor={(item)=>item.key}
+            renderItem={({item})=>{
+                return(
+                    <TouchableOpacity
+                        onPress={()=>sendData(item)}
+                    >
+                        <View style={styles.contData1}>
+                            <View style = {styles.contentTitle1}>
+                                <Text style = {styles.textContentTitle1}> {item.skill} </Text>
                             </View>
-                    </TouchableOpacity>
-                    )
-                }}
-                />
+                            <View style = {styles.contentTitle1}>
+                                <Text style = {styles.textContentTitle1}> {item.level}
+                                </Text>
+                            </View> 
+                        </View>
+                </TouchableOpacity>
+                )
+            }}
+            />)
+           : (<Text>Belum ada</Text>)
+          }
+              
             </View>
       </View>
     )

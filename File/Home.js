@@ -1,73 +1,68 @@
-import React from "react";
-import { View, Text, TextInput,StyleSheet, Image, StatusBar, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
+import React, {useEffect, useState} from "react";
+import { View, Text, TextInput, FlatList, StyleSheet, Image, StatusBar, TouchableOpacity, ScrollView, SafeAreaView, ImageBackground } from "react-native";
+import {dataRef, storageRef} from './References';
+import NumberFormat from 'react-number-format';
 
-export default function Biodata({navigation}){
+export default function Biodata({navigation, route}){
+    const {user} = route.params;  
+    const[diklan, setDiklan] = useState('');
+
+    useEffect(()=>{
+        const dataFocus = navigation.addListener('focus', ()=>{
+            const listener = dataRef.child("barang").orderByChild("key").on('value', (snapshot) => {
+              let data = snapshot.val();
+              let diklan;
+              if(data != null){
+                diklan = Object.values(data);
+              } else{
+                
+              }
+              setDiklan(diklan);
+              })})}) 
+        
+        
+    
     return(
         <SafeAreaView>
             <StatusBar
-            barStyle="light-content"
-            //backgroundColor="#fff"
+            barStyle="light-content"            
             />
         
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.top}>
-                    <Text style={styles.welcome}>Welcome User</Text>
-                    <TouchableOpacity style={{marginLeft:'auto'}}
-                    onPress={()=>navigation.navigate('Add')}>
-                        <Image                         
-                        source={require('../assets/cart.png')}/>
+                    <Text style={styles.welcome}>Welcome, <Text style={{fontStyle:'italic'}}>{(user)}</Text></Text>
+                    <TouchableOpacity style={{marginLeft:'auto',backgroundColor:'#14BB57', paddingHorizontal:10, paddingVertical:5, borderRadius:7}}
+                    onPress={()=>navigation.navigate('MyStack',{screen:'Barang', params:{user:user}})}>
+                        <Text style={{color:'#fff'}}>BarangKu</Text>
                     </TouchableOpacity>
                     
-                </View>
-                <View style={styles.contSearch}>
-                    <Image
-                    style={{marginLeft:15, alignSelf:'center', marginRight:10}}
-                    source={require("../assets/search.png")}/>
-                    <TextInput
-                    style={styles.search}
-                    placeholder="Cari"
-                    />
-                </View>
+                </View>                
             </View>
-            <View style={{flexDirection:'column'}}>
+            <View style={{flexDirection:'column'}}>                
                 <View style={styles.contkonten}>
-                    <Text style={{marginLeft:37, fontWeight:'bold', fontSize:16}}>Kategori</Text>
-                    <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}            
-                    >
-                        <View style={{flexDirection:'row', marginLeft:37}}>                
-                                <View style={styles.boxkategori}>
-
-                                </View>
-                                <View style={styles.boxkategori}>
-
-                                </View>
-                            
-                        </View>
-                    </ScrollView>
-                </View>
-                <View style={styles.contkonten}>
-                <Text style={{marginLeft:37, fontWeight:'bold', fontSize:16}}>Terbaru</Text>
-                <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}            
-                >                    
-                        <View style={{flexDirection:'row', marginLeft:37}}>                
-                            <TouchableOpacity onPress={()=>navigation.navigate('Detail')}>
-                                <View style={styles.boxterbaru}>
-
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>navigation.navigate('Detail')}>
-                                <View style={styles.boxterbaru}>
-
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    
-                </ScrollView>
+                <Text style={{marginBottom:20,marginLeft:40, fontWeight:'bold', fontSize:16}}>Semua Barang</Text>
+                <SafeAreaView style={{flexDirection:'row'}}>                
+                        <FlatList
+                            data={diklan}
+                            keyExtractor={(item)=>item.key}
+                            renderItem={({item})=>{
+                                return (                                    
+                                        <View style={[styles.boxterbaru,{alignSelf:'center'}]}>
+                                            <View style={{justifyContent:'center'}}>
+                                                <Text style={{marginLeft:25, fontSize:13, fontWeight:'bold'}}>{item.nama}</Text>
+                                            <Text style={{ marginLeft: 25, fontSize: 11, fontStyle:'italic' }}>{item.kategori}</Text>
+                                            {item.deskripsi.length >= 25 ? <Text style={{ marginLeft: 25, fontSize: 12 }}>{item.deskripsi.substr(0, 25)}...</Text> : <Text style={{ marginLeft: 25, fontSize: 12 }}>{item.deskripsi}</Text>}
+                                            <Text style={{marginLeft:25, fontSize:11}}>Diposting oleh {item.user}</Text>
+                                            </View>
+                                            <View style={{position:'absolute', left:'65%'}}>
+                                                <NumberFormat value={item.harga} displayType={'text'} thousandSeparator={true} prefix={"Rp"} renderText={(value, props) => <Text {...props} style={{marginLeft:25, fontSize:12}}>{value}</Text>} />
+                                            </View>
+                                        </View>                                    
+                                )
+                            }}
+                        />
+                </SafeAreaView>
             </View>            
             </View>
         </View>
@@ -80,13 +75,17 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:'column',
         backgroundColor:'#fff',
-        height:'100%'
+        height:'100%',
+        width:'100%',        
     },
     header:{
-        marginTop:50,
+        marginTop:20,
         width:337,
         alignItems:'center',
-        alignSelf:'center'
+        alignSelf:'center',
+        borderBottomWidth:1,
+        borderBottomColor:'#777',
+        paddingVertical:15,        
     },
     contSearch:{
         borderColor:'#777',
@@ -98,33 +97,25 @@ const styles = StyleSheet.create({
         height:52,
     },
     welcome:{
-        fontWeight:'bold',
-        marginBottom:10,
-        fontSize:16
+        fontWeight:'bold',        
+        fontSize:16,
     },
     top:{
         flexDirection:'row',
-        width:332
-    },
-    boxkategori:{
-        backgroundColor:'#c4c4c4', 
-        width:223, 
-        height:108,
-        borderRadius:20,
-        marginTop:20,
-        marginRight:20
+        width:332, 
+        justifyContent:'center'       
     },
     contkonten:{
-        marginTop:30,
-        alignSelf:'center',
-        width:'100%'
+        marginTop:20,        
+        width:410,
+        height:550,        
     },    
     boxterbaru:{
-        backgroundColor:'#c4c4c4', 
-        width:223, 
-        height:204,
-        borderRadius:20,
-        marginTop:20,
-        marginRight:20
+        backgroundColor:'#e7e7e7', 
+        width:337, 
+        height:100,
+        borderRadius:10,
+        marginBottom:15,
+        justifyContent:'center'
     }
 })

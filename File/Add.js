@@ -1,105 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View, TextInput, Picker, Alert } from 'react-native'
-import * as ImagePicker from 'expo-image-picker';
-import {dataRef} from './References';
+import {dataRef, storageRef} from './References';
+import * as firebase from 'firebase';
 
-export default function Add({navigation}) {
+export default function Add({navigation, route}) {
+    const {user} = route.params;
+    console.log(user);
+    const [nama, setNama] = useState(null);
+    const [seller, setSeller] = useState(null);        
+    const [kategori, setKategori] = useState(null);
+    const [deskripsi, setDeskripsi] = useState(null);    
+    const [harga, setHarga] = useState(null);
+    const [tgl, setTgl] = useState(null);
+    const [url, setUrl] = useState(null);
 
-    const [nama, setNama] = useState("");
-    const [image, setImage] = useState(null);   
-    const [kategori, setKategori] = useState("");
-    const [deskripsi, setDeskripsi] = useState("");
-    const [harga, setHarga] = useState("");
+    useEffect(() => {
+    var date = new Date().getDate(); 
+    var month = new Date().getMonth() + 1; 
+    var year = new Date().getFullYear(); 
+    var hours = new Date().getHours(); 
+    var min = new Date().getMinutes(); 
+    var sec = new Date().getSeconds(); 
+    setTgl(
+      date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec
+    );
+  }, []);
+    
+    
+      
 
   const submit = () => {
          let newData={
              nama: nama,
-             kategori: kategori,
-             image:image,
+             kategori: kategori,             
              deskripsi:deskripsi,
-             harga:harga
+             harga:harga,     
+             user:user,
+             tgl:tgl             
         };
-
+                
+        setSeller(user);
         const ref = dataRef.child("barang").push(newData);
         const key = ref.key;
-
-        dataRef.child("barang").child(key).update({'key': key})
-        navigation.navigate('Iklanku')
-    };
-
-    let openImagePickerAsync = async () => {
-        let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
-        if (permissionResult.granted === false) {
-          alert("Permission to access camera roll is required!");
-          return;
-        }
-    
-        let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        console.log(pickerResult);
-                
-        if (pickerResult.cancelled === true) {
-            this.uploadImage(result.uri)
-            .then(()=>{
-                Alert.alert('Success');
-            })
-            .catch((error)=>{
-                Alert.alert(error);
-            })
-        }        
         
-      }     
+                
+        dataRef.child("barang").child(key).update({ 'key': key });
+      
+        navigation.navigate("Barang");
+        Alert.alert("Input Barang Berhasil!");
+        return ;
+    };
     
-    let uploadImage = async (uri) =>{
-            const response = await fetch(uri);
-            const blob = await response.blog();
 
-            var ref = firebase.storage().ref().child("images/"+imageName);
-            return ref.put(blob);
-      }
+    
 
     return (
         <View style={{backgroundColor:'#fff', height:'100%'}}>
             <View style={{flexDirection:'row'}}>
-            <TouchableOpacity onPress={()=>navigation.goBack()}>
-                
-                    <View style={{width:50, height:50, alignItems:'center', justifyContent:'center', marginTop:19, marginLeft:10}}>
-                        <Image 
-                        source={require('../assets/back.png')}                    
-                        />
-                    </View>                                                                               
-            </TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.goBack()}>
+                    
+                        <View style={{width:50, height:50, alignItems:'center', justifyContent:'center', marginTop:19, marginLeft:10}}>
+                            <Image 
+                            source={require('../assets/back.png')}                    
+                            />
+                        </View>                                                                               
+                </TouchableOpacity>
             
                 <Text
                 style={{marginTop:32, marginLeft:0, fontSize:16, fontWeight:'bold'}}
-                >Tambah Iklan</Text>     
+                >Tambah Barang</Text>     
             </View>    
             <View style={{top:0}}>                
-
-                <View 
-                style={{width:337, height:114, backgroundColor:'#f3f3f3', alignSelf:'center', marginTop:40, justifyContent:'center',borderRadius:15}}
-                >
-                    <View 
-                    style={{width:94, height:94, backgroundColor:'#c4c4c4', marginLeft:10, borderRadius:15, justifyContent:'center', alignItems:'center'}}
-                    >
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        {/* Gambar */}
-                        {/* {image !== null ? <Text>data</Text>: <Text>Ieu</Text> } */}
-                        
-                        { image 
-                            ? null
-                            : <Text>+</Text>                            
-                        }
-
-                        </View>
-                    </View>
-
-                    <TouchableOpacity
-                    onPress={openImagePickerAsync}
-                    style={{position:'absolute', right:30}}>
-                        <Text>Tambah Foto +</Text>
-                    </TouchableOpacity>                          
-                </View>
 
                 {/* Input form */}
 
@@ -138,6 +109,10 @@ export default function Add({navigation}) {
                         >
                             <Picker.Item label="Pilih kategori barang" value="Belum diisi"/>
                             <Picker.Item label="Elektronik" value="Elektronik"/>
+                            <Picker.Item label="Mebel" value="Mebel"/>
+                            <Picker.Item label="Kecantikan" value="Kecantikan" />
+                            <Picker.Item label="Kendaraan" value="Kendaraan" />
+                            <Picker.Item label="Perkakas" value="Perkakas"/>
                         </Picker>
                     </View>
                 </View>
@@ -196,33 +171,6 @@ export default function Add({navigation}) {
             
         </View>
     )
-}
-
-gambar = () => {
-    let {
-        image
-      } = this.state;
-  
-      if (!image) {
-        return;
-      }
-  
-      return (
-        <View
-          style={styles.maybeRenderContainer}>
-          <View
-            style={styles.maybeRenderImageContainer}>
-            <Image source={{ uri: image }} style={styles.maybeRenderImage} />
-          </View>
-  
-          <Text
-            onPress={this._copyToClipboard}
-            onLongPress={this._share}
-            style={styles.maybeRenderImageText}>
-            {image}
-          </Text>
-        </View>
-      );
 }
 
 const styles = StyleSheet.create({

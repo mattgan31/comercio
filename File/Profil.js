@@ -13,35 +13,15 @@ export default function Data({navigation}){
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.top}>                    
-                    <Text style={styles.welcome}>Profil</Text>                                        
+                    <Text style={styles.welcome}>About Us</Text>                                        
                 </View>                
             </View>
-            <View>                
-                <View style={styles.contiklan}>                                                    
-
-                            <View style={[styles.boxiklan]}>
-                                <Text style={styles.juduliklan}>DiRaYu</Text>
-                              
-                                <View style={styles.foto}>
-
-                                </View>
-                               
-                                <TouchableOpacity style={{position:'absolute', right:35}}
-                                 onPress={()=>navigation.navigate('EditProfil')}>
-                                    <Image
-                                    source={require('../assets/edit.png')}
-                                    />
-                                </TouchableOpacity>
-                                
-                            </View>
-                    
-                            
-                                            
-                      
-            </View> 
-                        
+                <View style={{justifyContent:'center',marginTop:20,width:"80%",height:'80%',borderTopWidth:1,borderBottomWidth:1,borderBottomColor:'#777', borderTopColor:'#777'}}>
+                    <Text style={{ textAlign: 'center', fontSize: 16 }}>Dionisius Chandra Irawan</Text>
+                    <Text style={{textAlign: 'center', fontSize:16}}>Rahmat Alamsyah</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 16 }}>Yusuf Syakir</Text>
+                </View>                
             </View>
-        </View>
         </SafeAreaView>
     )
 }

@@ -1,23 +1,30 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Picker, Alert } from "react-native";
 import {dataRef} from './References';
 
 export default function Form({navigation, route}){
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [konfirmasiPassword, setKonfirmasiPassword] = useState("");
+    const [kelamin, setKelamin] = useState("");
 
   const submit = () => {
+      if(password !== konfirmasiPassword){
+        Alert.alert('Password belum sesuai');
+      }else{
         let newData={
-            username: username,
-            email: email,
-            password: password
-        };
-        const ref = dataRef.child("users").push(newData);
-        const key = ref.key;
-        dataRef.child("users").child(key).update({'key': key})
-
-        navigation.navigate('LoginScreen')
+          username: username,
+          email: email,
+          password: password
+      };
+      const ref = dataRef.child("users").push(newData);
+      const key = ref.key;
+      dataRef.child("users").child(key).update({'key': key})
+      Alert.alert('Daftar berhasil!');
+      navigation.navigate('LoginScreen');
+      }
+        
     };
 
     return (
@@ -55,12 +62,34 @@ export default function Form({navigation, route}){
                     value={password} 
                   />
               </View> 
+              <View style={styles.posInput}>
+                  <TextInput 
+                    style={[styles.input, {marginTop:5,}]}
+                    placeholder="Konfirmasi Password"
+                    keyboardType={"default"}
+                    secureTextEntry={true}
+                    placeholderTextColor="#777"
+                    onChangeText={(value)=>setKonfirmasiPassword(value)}
+                    value={konfirmasiPassword} 
+                  />
+              </View> 
+              <View style={[styles.posInput,{borderBottomColor:'#777', borderBottomWidth:1, marginTop:5, width:280}]}>
+              <Picker 
+                        selectedValue={kelamin}
+                        onValueChange={(itemValue, itemIndex) =>setKelamin(itemValue)}
+                        style={[styles.input,{height:25, width:328, right:23, transform:[{scaleX:0.9}, {scaleY:0.9}]}]}                     
+                        >
+                            <Picker.Item label="Pilih Jenis Kelamin" value="Belum terisi"/>
+                            <Picker.Item label="Laki-laki" value="Laki-laki"/>
+                            <Picker.Item label="Perempuan" value="Perempuan"/>
+                        </Picker>
+              </View>
               <View style={styles.posButton}>
                   <TouchableOpacity
                     style={styles.button}
                     onPress={()=>submit()}
                   >
-                    <Text style={styles.textButton}>Register</Text>
+                    <Text style={styles.textButton}>Daftar</Text>
                   </TouchableOpacity>
               </View>
               <View style={{flexDirection:'row', alignSelf:'center'}}>
